@@ -17,9 +17,11 @@ class AddTrackerController extends Controller
     {
         $model = new AddTracker();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // данные в $model удачно проверены
-
-            // делаем что-то полезное с $model ...
+            $tracker = explode(" ", trim($model->tracker));
+            foreach ($tracker as $value) {
+                $arr[] = [$model->username, $model->location, time(), $value];
+            }
+            Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date', 'track'], $arr)->execute();
             return $this->render('index', ['model' => $model]);
         } else {
             // либо страница отображается первый раз, либо есть ошибка в данных

@@ -17,6 +17,8 @@ $this->title = 'Добавить трекер';
 
     <?= $form->field($model, 'username')->label("Ваше имя!") ?>
 
+    <?= $form->field($model, 'location')->label("Город получателя!") ?>
+
     <?= $form->field($model, 'tracker')->textarea()->label("укажите трекеры!") ?>
 
     <div class="form-group">
