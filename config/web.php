@@ -20,7 +20,9 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // ...
+                "add-tracker" => "logistics/tracker/add-tracker",
+                "tracker" => "logistics/tracker/tracker",
+                "delete" => "logistics/tracker/delete-tracker"
             ],
         ],
         'request' => [

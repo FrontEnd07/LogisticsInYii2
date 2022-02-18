@@ -3,13 +3,12 @@
 namespace app\models\logistics;
 
 use Yii;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 
 /**
- * AddTracker is the model behind the add tracker form.
+ * Tracker is the model behind the add tracker form.
  **/
-class AddTracker extends ActiveRecord
+class Tracker extends ActiveRecord
 {
     public $username;
     public $location;

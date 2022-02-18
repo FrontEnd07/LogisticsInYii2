@@ -22,7 +22,8 @@ $this->title = 'Добавить трекер';
     <?= $form->field($model, 'tracker')->textarea()->label("укажите трекеры!") ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>
+        <a class="btn btn-warning" style="margin-left:10px" href=<?= Yii::$app->urlManager->createUrl(['tracker']); ?>>Назад</a>
     </div>
 
     <?php ActiveForm::end(); ?>

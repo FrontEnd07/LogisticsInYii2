@@ -11,6 +11,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 
 AppAsset::register($this);
+$this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

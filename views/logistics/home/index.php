@@ -6,5 +6,5 @@ $this->title = 'Logistics';
 ?>
 
 <div class="site-index">
-    asd
+    Logistics
 </div>
