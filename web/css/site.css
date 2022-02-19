@@ -1,4 +1,9 @@
-main > .container {
+body {
+    background: linear-gradient(rgba(246, 247, 249, 0.8), rgba(246, 247, 249, 0.8)), url(https://pp.userapi.com/c841325/v841325089/80ea6/e81R3WDwKZw.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+main>.container {
     padding: 70px 15px 20px;
 }
 
@@ -8,7 +13,7 @@ main > .container {
     height: 60px;
 }
 
-.footer > .container {
+.footer>.container {
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -59,26 +64,26 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+.nav li>form>button.logout {
     padding-top: 7px;
     color: rgba(255, 255, 255, 0.5);
 }
 
 @media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
+    .nav li>form>button.logout {
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 0;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+.nav>li>form>button.logout:focus,
+.nav>li>form>button.logout:hover {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.75);
 }
 
-.nav > li > form > button.logout:focus {
+.nav>li>form>button.logout:focus {
     outline: none;
 }

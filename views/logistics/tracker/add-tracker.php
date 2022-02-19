@@ -8,6 +8,7 @@ use yii\bootstrap4\ActiveForm;
 // use yii\bootstrap4\Html;
 use yii\helpers\Html;
 
+$this->registerCssFile("/web/css/tracker.css");
 $this->title = 'Добавить трекер';
 ?>
 <div class="site-login">

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 $this->registerCssFile("/web/css/timeline.css");
+$this->registerCssFile("/web/css/home.css");
 $this->title = 'Logistics';
 ?>
 
