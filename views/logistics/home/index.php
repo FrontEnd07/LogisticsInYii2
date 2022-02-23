@@ -26,8 +26,18 @@ $this->title = 'Logistics';
                     <li>
                         <span><?= $list->city ?></span>
                         <span class="float-right"><?= $list->date_time ?></span>
-                        <p><?= $list->name ?> <?= $list->track ?></p>
+                        <p><?= $list->track ?>: Принято в отделении связи</p>
                     </li>
+                    <?php if ($progress) : ?>
+                        <?php foreach ($progress as $value) : ?>
+                            <li>
+                                <span><?= $list->city ?></span>
+                                <span class="float-right"><?= $value->date ?></span>
+                                <p><?= $list->track ?>: <?= $value->text ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
                 </ul>
             </div>
         <?php endif ?>

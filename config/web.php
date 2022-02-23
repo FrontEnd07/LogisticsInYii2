@@ -22,7 +22,9 @@ $config = [
             'rules' => [
                 "add-tracker" => "logistics/tracker/add-tracker",
                 "tracker" => "logistics/tracker/tracker",
-                "delete" => "logistics/tracker/delete-tracker"
+                "delete" => "logistics/tracker/delete-tracker",
+                "import" => "logistics/tracker/import",
+                "add-progress" => "logistics/tracker/add-progress",
             ],
         ],
         'request' => [
