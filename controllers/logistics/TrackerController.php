@@ -65,31 +65,29 @@ class TrackerController extends Controller
         $model = new Tracker();
         $modelProgress = new AddProgress();
         $status = array();
-        if ($model->find()->where(["status" => 0])->limit(2000)->all()) {
-            foreach ($model->find()->where(["status" => 0])->limit(2000)->all() as $value) {
-                if (!$value->status) {
-                    $count = $modelProgress->find()->where(["id_tracker" => $value->id])->count();
-                    if ($count > 0 && $count != 5) {
-                        $date = $modelProgress->find()->where(["id_tracker" => $value->id])->orderBy(['id' => SORT_DESC])->select(["date"])->one()['date'];
-                    }
-                    if ($count == 0 && time() >= strtotime('+1 day', $value->date_time)) {
-                        $arr[] = [$value->id, "Покинуло сортировочный центр", strtotime('+1 day', $value->date_time)];
-                    }
-                    if ($count == 1 && time() >= strtotime('+1 day', $date)) {
-                        $arr[] = [$value->id, "Ожидайте ваш товар через 3 дня будеть на границе", strtotime('+1 day', $date)];
-                    }
-                    if ($count == 2 && time() >= strtotime('+1 day', $date)) {
-                        $arr[] = [$value->id, "Не беспокойтесь ваш товар будет на границе через 2 дня", strtotime('+1 day', $date)];
-                    }
-                    if ($count == 3 && time() >= strtotime('+1 day', $date)) {
-                        $arr[] = [$value->id, "Мы проверяем вашу посылку каждый день ваша посылка завтра уже будет на границе", strtotime('+1 day', $date)];
-                    }
-                    if ($count == 4 && time() >= strtotime('+1 day', $date)) {
-                        $arr[] = [$value->id, "Товар находится на границе", strtotime('+1 day', $date)];
-                    }
-                    if ($count == 5) {
-                        $status[] = $value->id;
-                    }
+        foreach ($model->find()->where(["status" => 0])->limit(2000)->all() as $value) {
+            if (!$value->status) {
+                $count = $modelProgress->find()->where(["id_tracker" => $value->id])->count();
+                if ($count > 0 && $count != 5) {
+                    $date = $modelProgress->find()->where(["id_tracker" => $value->id])->orderBy(['id' => SORT_DESC])->select(["date"])->one()['date'];
+                }
+                if ($count == 0 && time() >= strtotime('+1 day', $value->date_time)) {
+                    $arr[] = [$value->id, "Покинуло сортировочный центр", strtotime('+1 day', $value->date_time)];
+                }
+                if ($count == 1 && time() >= strtotime('+1 day', $date)) {
+                    $arr[] = [$value->id, "Ожидайте ваш товар через 3 дня будеть на границе", strtotime('+1 day', $date)];
+                }
+                if ($count == 2 && time() >= strtotime('+1 day', $date)) {
+                    $arr[] = [$value->id, "Не беспокойтесь ваш товар будет на границе через 2 дня", strtotime('+1 day', $date)];
+                }
+                if ($count == 3 && time() >= strtotime('+1 day', $date)) {
+                    $arr[] = [$value->id, "Мы проверяем вашу посылку каждый день ваша посылка завтра уже будет на границе", strtotime('+1 day', $date)];
+                }
+                if ($count == 4 && time() >= strtotime('+1 day', $date)) {
+                    $arr[] = [$value->id, "Товар находится на границе", strtotime('+1 day', $date)];
+                }
+                if ($count == 5) {
+                    $status[] = $value->id;
                 }
             }
         }
