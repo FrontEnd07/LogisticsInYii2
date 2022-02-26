@@ -20,7 +20,12 @@ $this->title = 'Добавить трекер';
 
     <?= $form->field($model, 'location')->label("Город получателя!") ?>
 
-    <?= $form->field($model, 'tracker')->textarea()->label("укажите трекеры!") ?>
+    <?= $form->field($model, 'tracker')->textarea(['placeholder' => "Например: YT4632112889989"])->label("Укажите трекеры!") ?>
+    <?= $form->field($model, 'position')->label(false)->dropDownList([
+        '0' => 'Получен на склад',
+        '1' => 'Товар в Алмате',
+        '2' => 'Товар в Москве'
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>

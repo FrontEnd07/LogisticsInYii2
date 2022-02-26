@@ -31,7 +31,15 @@ $this->title = 'Logistics';
                     <?php if ($progress) : ?>
                         <?php foreach ($progress as $value) : ?>
                             <li>
-                                <span><?= $list->city ?></span>
+                                <span>
+                                    <?php if ($value->text == "Товар в Алмате") : ?>
+                                        Kazakhstan
+                                    <?php elseif ($value->text == "Товар в Москве") : ?>
+                                        Russia
+                                    <?php else : ?>
+                                        China
+                                    <?php endif; ?>
+                                </span>
                                 <span class="float-right"><?= $value->date ?></span>
                                 <p><?= $list->track ?>: <?= $value->text ?></p>
                             </li>

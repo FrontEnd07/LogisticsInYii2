@@ -14,13 +14,28 @@ class TrackerController extends Controller
     public function actionAddTracker()
     {
         $model = new Tracker();
+        $modelProgress = new AddProgress();
         if ($model->load(Yii::$app->request->post())) {
-            if (!Yii::$app->request->get('id') && $model->validate()) {
-                $tracker = explode(" ", trim($model->tracker));
+            $tracker = explode(" ", trim($model->tracker));
+            if (!Yii::$app->request->get('id') && $model->validate() && $model->position == 0) {
                 foreach ($tracker as $value) {
                     $arr[] = [$model->username, $model->location, time(), $value, 0];
                 }
                 Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date_time', 'track', "status"], $arr)->execute();
+            }
+            if (!Yii::$app->request->get('id') && $model->position == 1 && $model->validate()) {
+                foreach ($tracker as $value) {
+                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $arr[] = [$id, "Товар в Алмате", time()];
+                }
+                Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+            }
+            if (!Yii::$app->request->get('id') && $model->position == 2 && $model->validate()) {
+                foreach ($tracker as $value) {
+                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $arr[] = [$id, "Товар в Москве", time()];
+                }
+                Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (Yii::$app->request->get('id') && $model->validate()) {
                 $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker], ['id' => Yii::$app->request->get('id')]);

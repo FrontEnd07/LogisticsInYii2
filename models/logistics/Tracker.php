@@ -14,6 +14,7 @@ class Tracker extends ActiveRecord
     public $username;
     public $location;
     public $tracker;
+    public $position;
 
     public static function tableName()
     {
@@ -26,9 +27,7 @@ class Tracker extends ActiveRecord
     {
         return [
             // username and tracker are both required
-            [['username'], 'required', 'message' => "Пожалуйста, введите имя!"],
-            [['location'], 'required', 'message' => "Пожалуйста, укажите город!"],
-            [['tracker'], 'required', 'message' => "Пожалуйста, укажите трекеры"],
+            [['username', 'position', 'location', 'tracker'], 'required', 'message' => "Поля не должно быть пустым!"],
         ];
     }
     public function getProgress()
