@@ -25,7 +25,6 @@ class HomeController extends Controller
                     $progress[$key]['date'] = Yii::$app->formatter->asDate($value->date, 'dd MMMM, yyyy');
                 }
             }
-
             return $this->render('index', ["model" => $model, "list" => $track, "progress" => $progress, $track ? "" : "error" => "false"]);
         }
 

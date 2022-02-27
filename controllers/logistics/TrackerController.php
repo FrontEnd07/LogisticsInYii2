@@ -26,11 +26,18 @@ class TrackerController extends Controller
             if (!Yii::$app->request->get('id') && $model->position == 1 && $model->validate()) {
                 foreach ($tracker as $value) {
                     $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
-                    $arr[] = [$id, "Товар в Алмате", time()];
+                    $arr[] = [$id, "Товар покинул склад", time()];
                 }
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (!Yii::$app->request->get('id') && $model->position == 2 && $model->validate()) {
+                foreach ($tracker as $value) {
+                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $arr[] = [$id, "Товар в Алмате", time()];
+                }
+                Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+            }
+            if (!Yii::$app->request->get('id') && $model->position == 3 && $model->validate()) {
                 foreach ($tracker as $value) {
                     $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
                     $arr[] = [$id, "Товар в Москве", time()];
@@ -81,27 +88,27 @@ class TrackerController extends Controller
         $modelProgress = new AddProgress();
         $status = array();
         foreach ($model->find()->where(["status" => 0])->limit(2000)->all() as $value) {
-            if (!$value->status) {
-                $count = $modelProgress->find()->where(["id_tracker" => $value->id])->count();
-                if ($count > 0 && $count != 5) {
+            $count = $modelProgress->find()->where(["id_tracker" => $value->id])->count();
+            if ($count == 1) {
+                if ($count >= 1 && $count != 6) {
                     $date = $modelProgress->find()->where(["id_tracker" => $value->id])->orderBy(['id' => SORT_DESC])->select(["date"])->one()['date'];
                 }
-                if ($count == 0 && time() >= strtotime('+1 day', $value->date_time)) {
-                    $arr[] = [$value->id, "Покинуло сортировочный центр", strtotime('+1 day', $value->date_time)];
-                }
                 if ($count == 1 && time() >= strtotime('+1 day', $date)) {
-                    $arr[] = [$value->id, "Ожидайте ваш товар через 3 дня будеть на границе", strtotime('+1 day', $date)];
+                    $arr[] = [$value->id, "Товар через 4 дней будеть на границе", strtotime('+1 day', $date)];
                 }
                 if ($count == 2 && time() >= strtotime('+1 day', $date)) {
-                    $arr[] = [$value->id, "Не беспокойтесь ваш товар будет на границе через 2 дня", strtotime('+1 day', $date)];
+                    $arr[] = [$value->id, "Ожидайте ваш товар через 3 дня будеть на границе", strtotime('+1 day', $date)];
                 }
                 if ($count == 3 && time() >= strtotime('+1 day', $date)) {
-                    $arr[] = [$value->id, "Мы проверяем вашу посылку каждый день ваша посылка завтра уже будет на границе", strtotime('+1 day', $date)];
+                    $arr[] = [$value->id, "Не беспокойтесь ваш товар будет на границе через 2 дня", strtotime('+1 day', $date)];
                 }
                 if ($count == 4 && time() >= strtotime('+1 day', $date)) {
+                    $arr[] = [$value->id, "Мы проверяем вашу посылку каждый день ваша посылка завтра уже будет на границе", strtotime('+1 day', $date)];
+                }
+                if ($count == 5 && time() >= strtotime('+1 day', $date)) {
                     $arr[] = [$value->id, "Товар находится на границе", strtotime('+1 day', $date)];
                 }
-                if ($count == 5) {
+                if ($count == 6) {
                     $status[] = $value->id;
                 }
             }
@@ -109,7 +116,9 @@ class TrackerController extends Controller
         if (count($status) > 0) {
             $model->updateAll(['status' => 1], ['id' => $status]);
         }
-        Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+        if ($arr) {
+            Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+        }
         die;
     }
 

@@ -23,8 +23,9 @@ $this->title = 'Добавить трекер';
     <?= $form->field($model, 'tracker')->textarea(['placeholder' => "Например: YT4632112889989"])->label("Укажите трекеры!") ?>
     <?= $form->field($model, 'position')->label(false)->dropDownList([
         '0' => 'Получен на склад',
-        '1' => 'Товар в Алмате',
-        '2' => 'Товар в Москве'
+        '1' => 'Товар покинул склад',
+        '2' => 'Товар в Алмате',
+        '3' => 'Товар в Москве'
     ]); ?>
 
     <div class="form-group">
