@@ -18,6 +18,11 @@ $this->title = 'Logistics';
                 <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
             </div>
             <?php ActiveForm::end(); ?>
+            <?php if ($error) : ?>
+                <div class="alert alert-danger" role="alert" style="margin-bottom:0px">
+                    Данный трекер не существует!
+                </div>
+            <?php endif ?>
         </div>
         <?php if ($list) : ?>
             <div class="col-md-12">
@@ -45,7 +50,6 @@ $this->title = 'Logistics';
                             </li>
                         <?php endforeach; ?>
                     <?php endif; ?>
-
                 </ul>
             </div>
         <?php endif ?>

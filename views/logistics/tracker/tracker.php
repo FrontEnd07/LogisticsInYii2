@@ -36,7 +36,7 @@ $this->title = 'Трекеры';
             ],
             [
                 'attribute' => 'date_time',
-                'format' => ['date', 'php:d m yy H:i'],
+                'format' => ['date', 'php:d/m/yy H:i'],
                 'label' => 'Время записи',
             ],
             [
