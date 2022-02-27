@@ -16,7 +16,7 @@ class TrackerController extends Controller
         $model = new Tracker();
         $modelProgress = new AddProgress();
         if ($model->load(Yii::$app->request->post())) {
-            $tracker = explode(" ", trim($model->tracker));
+            $tracker = explode(PHP_EOL, trim($model->tracker));
             if (!Yii::$app->request->get('id') && $model->validate() && $model->position == 0) {
                 foreach ($tracker as $value) {
                     $arr[] = [$model->username, $model->location, time(), $value, 0];
@@ -40,7 +40,7 @@ class TrackerController extends Controller
             if (Yii::$app->request->get('id') && $model->validate()) {
                 $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker], ['id' => Yii::$app->request->get('id')]);
             }
-            $this->redirect("tracker");
+            $this->redirect("/");
         }
         $model->username = "Работник";
         $model->location = "China, Guangdong, Guangzhou";
