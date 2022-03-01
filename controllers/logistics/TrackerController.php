@@ -25,21 +25,21 @@ class TrackerController extends Controller
             }
             if (!Yii::$app->request->get('id') && $model->position == 1 && $model->validate()) {
                 foreach ($tracker as $value) {
-                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
                     $arr[] = [$id, "Товар покинул склад", time()];
                 }
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (!Yii::$app->request->get('id') && $model->position == 2 && $model->validate()) {
                 foreach ($tracker as $value) {
-                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
                     $arr[] = [$id, "Товар в Алмате", time()];
                 }
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (!Yii::$app->request->get('id') && $model->position == 3 && $model->validate()) {
                 foreach ($tracker as $value) {
-                    $id = $model->find()->where(['track' => $value])->select('id')->one()["id"];
+                    $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
                     $arr[] = [$id, "Товар в Москве", time()];
                 }
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
