@@ -19,7 +19,7 @@ class TrackerController extends Controller
             $tracker = explode(PHP_EOL, trim($model->tracker));
             if (!Yii::$app->request->get('id') && $model->validate() && $model->position == 0) {
                 foreach ($tracker as $value) {
-                    $arr[] = [$model->username, $model->location, time(), $value, 0];
+                    $arr[] = [$model->username, $model->location, time(), trim($value), 0];
                 }
                 Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date_time', 'track', "status"], $arr)->execute();
             }
