@@ -45,7 +45,32 @@ class TrackerController extends Controller
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (Yii::$app->request->get('id') && $model->validate()) {
-                $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker], ['id' => Yii::$app->request->get('id')]);
+                switch ($model->position) {
+                    case 0:
+                        $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker], ['id' => Yii::$app->request->get('id')]);
+                        break;
+                    case 1:
+                        foreach ($tracker as $value) {
+                            $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
+                            $arr[] = [$id, "Товар покинул склад", time()];
+                        }
+                        Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+                        break;
+                    case 2:
+                        foreach ($tracker as $value) {
+                            $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
+                            $arr[] = [$id, "Товар в Алмате", time()];
+                        }
+                        Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+                        break;
+                    case 3:
+                        foreach ($tracker as $value) {
+                            $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
+                            $arr[] = [$id, "Товар в Москве", time()];
+                        }
+                        Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
+                        break;
+                }
             }
             $this->redirect("/");
         }
