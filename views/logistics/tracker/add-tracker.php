@@ -16,9 +16,9 @@ $this->title = 'Добавить трекер';
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->label("Ваше имя!") ?>
+    <?= $form->field($model, 'username')->label("Вес посылки") ?>
 
-    <?= $form->field($model, 'location')->label("Город получателя!") ?>
+    <?= $form->field($model, 'location')->label("Город получателя") ?>
 
     <?= $form->field($model, 'tracker')->textarea(['placeholder' => "Например: YT4632112889989"])->label("Укажите трекеры!") ?>
     <?= $form->field($model, 'position')->label(false)->dropDownList([

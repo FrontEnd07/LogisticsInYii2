@@ -40,7 +40,7 @@ class TrackerController extends Controller
             if (!Yii::$app->request->get('id') && $model->position == 3 && $model->validate()) {
                 foreach ($tracker as $value) {
                     $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
-                    $arr[] = [$id, "Товар в Москве", time()];
+                    $arr[] = [$id, "Товар через 7 дней будеть в Москве", time()];
                 }
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
@@ -66,7 +66,7 @@ class TrackerController extends Controller
                     case 3:
                         foreach ($tracker as $value) {
                             $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
-                            $arr[] = [$id, "Товар в Москве", time()];
+                            $arr[] = [$id, "Товар через 7 дней будеть в Москве", time()];
                         }
                         Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
                         break;
@@ -74,7 +74,7 @@ class TrackerController extends Controller
             }
             $this->redirect("/");
         }
-        $model->username = "Работник";
+        $model->username = "0";
         $model->location = "China, Guangdong, Guangzhou";
         if (Yii::$app->request->get('id')) {
             $model = $model->find()->where(['id' => Yii::$app->request->get('id')])->one();
