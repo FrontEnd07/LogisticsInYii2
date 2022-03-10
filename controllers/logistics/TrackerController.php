@@ -114,7 +114,7 @@ class TrackerController extends Controller
         $status = array();
         foreach ($model->find()->where(["status" => 0])->limit(2000)->all() as $value) {
             $count = $modelProgress->find()->where(["id_tracker" => $value->id])->count();
-            if ($count == 1) {
+            if ($count >= 1) {
                 if ($count >= 1 && $count != 6) {
                     $date = $modelProgress->find()->where(["id_tracker" => $value->id])->orderBy(['id' => SORT_DESC])->select(["date"])->one()['date'];
                 }
