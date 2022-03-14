@@ -13,6 +13,9 @@ class TrackerController extends Controller
 {
     public function actionAddTracker()
     {
+        if (!Yii::$app->user->getId() == "102") {
+            return $this->goHome();
+        }
         $model = new Tracker();
         $modelProgress = new AddProgress();
         if ($model->load(Yii::$app->request->post())) {
@@ -87,6 +90,9 @@ class TrackerController extends Controller
 
     public function actionTracker()
     {
+        if (!Yii::$app->user->getId() == "102") {
+            return $this->goHome();
+        }
         $q = Tracker::find()->orderBy('id DESC');
         $model = Tracker::find()->orderBy('id DESC')->all();
         $dataProvider = new ActiveDataProvider([
@@ -102,6 +108,9 @@ class TrackerController extends Controller
 
     public function actionDeleteTracker()
     {
+        if (!Yii::$app->user->getId() == "102") {
+            return $this->goHome();
+        }
         Tracker::find()->where(['id' => Yii::$app->request->get('id')])->one()->delete();
         $this->redirect(Yii::$app->request->referrer);
     }
