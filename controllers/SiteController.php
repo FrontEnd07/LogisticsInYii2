@@ -77,6 +77,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (Yii::$app->user->getId() == "102") return $this->redirect(['logistics/tracker/tracker']);
             return $this->goBack();
         }
 
