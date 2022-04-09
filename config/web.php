@@ -25,6 +25,8 @@ $config = [
                 "delete" => "logistics/tracker/delete-tracker",
                 "import" => "logistics/tracker/import",
                 "add-progress" => "logistics/tracker/add-progress",
+                "signup" => "logistics/user/signup",
+                "signup" => "logistics/user/signin",
             ],
         ],
         'request' => [
