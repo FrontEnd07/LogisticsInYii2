@@ -36,6 +36,7 @@ class SignupForm extends ActiveRecord
             'email' => 'Email'
         ];
     }
+
     public function signUp()
     {
         $user = new User();

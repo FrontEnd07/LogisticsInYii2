@@ -10,6 +10,7 @@ class SignIn extends ActiveRecord
 
     public $password;
     public $email;
+    public $rememberMe = true;
 
     public static function tableName()
     {
@@ -31,7 +32,8 @@ class SignIn extends ActiveRecord
     {
         return [
             'password' => 'Пароль',
-            'email' => 'Email'
+            'email' => 'Email',
+            'rememberMe' => 'Запомнить меня'
         ];
     }
 

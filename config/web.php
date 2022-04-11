@@ -26,7 +26,7 @@ $config = [
                 "import" => "logistics/tracker/import",
                 "add-progress" => "logistics/tracker/add-progress",
                 "signup" => "logistics/user/signup",
-                "signup" => "logistics/user/signin",
+                "signin" => "logistics/user/signin",
             ],
         ],
         'request' => [

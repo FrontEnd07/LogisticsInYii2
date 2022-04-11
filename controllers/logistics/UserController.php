@@ -2,14 +2,12 @@
 
 namespace app\controllers\logistics;
 
-use Yii;
-use yii\web\Controller;
 
+use Yii;
+use app\models\logistics\Address;
+use yii\web\Controller;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
-use app\models\User;
-
-
 
 class UserController extends Controller
 {
@@ -23,32 +21,39 @@ class UserController extends Controller
             if ($model->signUp()) {
                 return $this->goHome();
             }
-
-            // $user = new User();
-            // $user->username = $model->username;
-            // $user->password = \Yii::$app->security->generatePasswordHash($model->password);
-            // $user->email = $model->email;
-            // echo '<pre>';
-            // print_r($user);
-            // die;
-            // if ($user->save()) {
-            //     return $this->goHome();
-            // }
         }
 
         return $this->render('signup', compact('model'));
     }
     public function actionSignin()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new SignIn();
 
         if (\Yii::$app->request->post("SignIn")) {
             $model->attributes = \Yii::$app->request->post("SignIn");
             if ($model->validate()) {
-                var_dump("Валидация");
-                die();
+                Yii::$app->user->login($model->getUser(), $model->rememberMe ? 3600 * 24 * 30 : 0);
+                return  $this->goHome();
             }
         }
         return $this->render('signin', compact('model'));
+    }
+    public function actionAddress()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new Address();
+        // $user = $model->find()->where(["id" => Yii::$app->user->getId()])->one();
+        // die();
+        if (Yii::$app->request->post("Address")) {
+            $model->attributes = Yii::$app->request->post("Address");
+        }
+        return $this->render('address', compact('model'));
     }
 }
