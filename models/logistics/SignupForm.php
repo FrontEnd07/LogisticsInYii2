@@ -23,7 +23,8 @@ class SignupForm extends ActiveRecord
         return [
             [['username', 'password', 'email'], 'required', 'message' => 'Заполните поле'],
             [['username', 'password', 'email'], 'trim'],
-            ['username', 'unique', 'targetClass' => User::className(),  'message' => 'Этот логин уже занят'],
+            [['username'], 'unique', 'targetClass' => User::className(),  'message' => 'Этот логин уже занят'],
+            [["email"], 'unique', 'targetClass' => User::className(),  'message' => 'Этот email уже занят'],
             ['email', 'email'],
         ];
     }

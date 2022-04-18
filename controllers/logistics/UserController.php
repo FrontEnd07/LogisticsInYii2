@@ -5,6 +5,7 @@ namespace app\controllers\logistics;
 
 use Yii;
 use app\models\logistics\Address;
+use app\models\logistics\AddTrackerClient;
 use yii\web\Controller;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
@@ -45,15 +46,70 @@ class UserController extends Controller
     public function actionAddress()
     {
         if (Yii::$app->user->isGuest) {
-            return $this->goHome();
+            Yii::$app->response->redirect('signin');
         }
 
         $model = new Address();
-        // $user = $model->find()->where(["id" => Yii::$app->user->getId()])->one();
-        // die();
-        if (Yii::$app->request->post("Address")) {
-            $model->attributes = Yii::$app->request->post("Address");
+        $user = $model->find()->where(["client" => Yii::$app->user->getId()])->one();
+        $status = [];
+        if (Yii::$app->request->post("Address") && $user) {
+            $model->updateAll(Yii::$app->request->post("Address"), ["client" => Yii::$app->user->getId()]);
+            $status["update"] = true;
         }
-        return $this->render('address', compact('model'));
+
+        if ($user) {
+            $user = $model->find()->where(["client" => Yii::$app->user->getId()])->one();
+            $model->contry = $user->contry;
+            $model->surname = $user->surname;
+            $model->name = $user->name;
+            $model->region = $user->region;
+            $model->city = $user->city;
+            $model->house = $user->house;
+            $model->postcode = $user->postcode;
+            $model->phone = $user->phone;
+        }
+
+        if (Yii::$app->request->post("Address") && is_null($user)) {
+            $model->attributes = Yii::$app->request->post("Address");
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->client = Yii::$app->user->getId();
+                $model->save();
+                $status["save"] = true;
+            }
+        }
+        return $this->render('address', ["model" => $model, "status" => $status]);
+    }
+    public function actionAddTrackerClient()
+    {
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->response->redirect('signin');
+        }
+
+        $model = new AddTrackerClient();
+        $model->name = Yii::$app->user->identity->username;
+
+        $status = [];
+
+        if (Yii::$app->request->post("AddTrackerClient")) {
+            $model->attributes = Yii::$app->request->post("Address");
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->id_client = Yii::$app->user->getId();
+                $model->save();
+                $status["save"] = true;
+            }
+        }
+
+        return $this->render('add-tracker-client', ["model" => $model, "status" => $status]);
+    }
+    public function actionMyTracker()
+    {
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->response->redirect('signin');
+        }
+        $model = new AddTrackerClient();
+        $list = $model->find()->where(["id_client" => Yii::$app->user->getId()])->all();
+        // print_r($list);
+        // die();
+        return $this->render('my-tracker', ["model" => $model]);
     }
 }

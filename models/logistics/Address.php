@@ -10,14 +10,6 @@ use yii\db\ActiveRecord;
  **/
 class Address extends ActiveRecord
 {
-    public $contry;
-    public $surname;
-    public $name;
-    public $region;
-    public $city;
-    public $house;
-    public $postcode;
-    public $phone;
 
     public static function tableName()
     {

@@ -90,7 +90,7 @@ class TrackerController extends Controller
 
     public function actionTracker()
     {
-        if (Yii::$app->user->getId() != 102) {
+        if (Yii::$app->user->getId() != 6) {
             return $this->redirect(['/']);
         }
         $q = Tracker::find()->orderBy('id DESC');
