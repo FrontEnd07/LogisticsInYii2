@@ -42,16 +42,6 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
             'items' => [
                 ['label' => 'Мои посылки', 'url' => ['logistics/user/my-tracker']],
                 ['label' => 'Добавить трек', 'url' => ['logistics/user/add-tracker-client']],
-                '<li class="nav-item dropdown">
-                ' . Html::tag(
-                    "a",
-                    'Настройка',
-                    ['class' => 'dropdown-toggle nav-link active', "data-toggle" => "dropdown", "role" => "button"]
-                ) . '
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/user/address']) . '">Адрес доставки</a>
-                </div>
-                </li>',
                 Yii::$app->user->isGuest ? (['label' => 'Авторизация', 'url' => ['/logistics/user/signin']]
                 ) : ('<li class="nav-item dropdown">' . Html::tag(
                     "a",
@@ -59,7 +49,9 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
                     ['class' => 'dropdown-toggle nav-link active', "data-toggle" => "dropdown", "role" => "button"]
                 ) .
                     '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        ' . Html::a(
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/user/change-account']) . '">Настройки</a>
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/user/address']) . '">Адрес доставки</a>    
+                    ' . Html::a(
                         "Выход (" . Yii::$app->user->identity->username . ")",
                         ['site/logout'],
                         [
@@ -67,6 +59,7 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
                             'data-method' => 'POST'
                         ]
                     ) . '
+                    
                     </div>
                 </li>'
                 )

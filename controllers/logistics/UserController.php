@@ -6,9 +6,12 @@ namespace app\controllers\logistics;
 use Yii;
 use app\models\logistics\Address;
 use app\models\logistics\AddTrackerClient;
+use app\models\logistics\ChangeAccount;
 use yii\web\Controller;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
+use app\models\User;
+use yii\data\ActiveDataProvider;
 
 class UserController extends Controller
 {
@@ -20,7 +23,7 @@ class UserController extends Controller
         $model = new SignupForm();
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if ($model->signUp()) {
-                return $this->goHome();
+                Yii::$app->response->redirect('signin');
             }
         }
 
@@ -94,6 +97,7 @@ class UserController extends Controller
             $model->attributes = Yii::$app->request->post("Address");
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $model->id_client = Yii::$app->user->getId();
+                $model->date_time = time();
                 $model->save();
                 $status["save"] = true;
             }
@@ -106,10 +110,36 @@ class UserController extends Controller
         if (Yii::$app->user->isGuest) {
             Yii::$app->response->redirect('signin');
         }
-        $model = new AddTrackerClient();
-        $list = $model->find()->where(["id_client" => Yii::$app->user->getId()])->all();
-        // print_r($list);
-        // die();
-        return $this->render('my-tracker', ["model" => $model]);
+        $q = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->orderBy('id DESC');
+        $model = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->all();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $q,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('my-tracker', [
+            'dataProvider' => $dataProvider, 'model' => $model
+        ]);
+    }
+    public function actionChangeAccount()
+    {
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->response->redirect('signin');
+        }
+        $model = new ChangeAccount();
+        $user = User::find()->where(["id" => Yii::$app->user->getId()])->one();
+        $model->username = $user->username;
+        $model->email = $user->email;
+
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+            if ($model->change()) {
+                Yii::$app->response->redirect('setting-account');
+            }
+        }
+
+        return $this->render('setting-account', [
+            'model' => $model
+        ]);
     }
 }
