@@ -42,6 +42,7 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
             'items' => [
                 ['label' => 'Мои посылки', 'url' => ['logistics/user/my-tracker']],
                 ['label' => 'Добавить трек', 'url' => ['logistics/user/add-tracker-client']],
+                Yii::$app->user->getId() == 6 ? ['label' => 'Администратор', 'url' => ['logistics/admin/admin-tracker-list']] : "",
                 Yii::$app->user->isGuest ? (['label' => 'Авторизация', 'url' => ['/logistics/user/signin']]
                 ) : ('<li class="nav-item dropdown">' . Html::tag(
                     "a",

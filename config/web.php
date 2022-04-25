@@ -31,6 +31,7 @@ $config = [
                 "my-tracker" => "logistics/user/my-tracker",
                 "my-address" => "logistics/user/address",
                 "setting-account" => "logistics/user/change-account",
+                "admin-tracker-list" => "logistics/admin/admin-tracker-list",
             ],
         ],
         'request' => [

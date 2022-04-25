@@ -4,13 +4,13 @@ namespace app\controllers\logistics;
 
 
 use Yii;
+use app\models\User;
+use yii\web\Controller;
 use app\models\logistics\Address;
 use app\models\logistics\AddTrackerClient;
 use app\models\logistics\ChangeAccount;
-use yii\web\Controller;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
-use app\models\User;
 use yii\data\ActiveDataProvider;
 
 class UserController extends Controller

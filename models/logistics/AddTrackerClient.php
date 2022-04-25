@@ -4,6 +4,7 @@ namespace app\models\logistics;
 
 use Yii;
 use yii\db\ActiveRecord;
+use app\models\User;
 
 /**
  * Tracker is the model behind the add tracker form.
@@ -35,5 +36,10 @@ class AddTrackerClient extends ActiveRecord
             'nameItem' => 'Наименования товара',
             'quantity' => 'Количество',
         ];
+    }
+
+    public function getProgress()
+    {
+        return $this->hasMany(User::class, ['id' => 'id_client']);
     }
 }
