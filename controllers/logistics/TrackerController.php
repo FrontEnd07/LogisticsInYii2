@@ -13,7 +13,7 @@ class TrackerController extends Controller
 {
     public function actionAddTracker()
     {
-        if (Yii::$app->user->getId() != 102) {
+        if (Yii::$app->user->getId() != 6 and Yii::$app->user->getId() != 10) {
             return $this->redirect(['/']);
         }
         $model = new Tracker();
@@ -90,7 +90,7 @@ class TrackerController extends Controller
 
     public function actionTracker()
     {
-        if (Yii::$app->user->getId() != 102) {
+        if (Yii::$app->user->getId() != 6 and Yii::$app->user->getId() != 10) {
             return $this->redirect(['/']);
         }
         $q = Tracker::find()->orderBy('id DESC');

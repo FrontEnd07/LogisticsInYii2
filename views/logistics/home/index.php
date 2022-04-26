@@ -9,21 +9,19 @@ $this->registerCssFile("/web/css/home.css");
 $this->title = 'Logistics';
 ?>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <?php $form = ActiveForm::begin(); ?>
-            <?= $form->field($model, 'tracker')->label("Ваш трекер!") ?>
-            <div class="form-group">
-                <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
-            <?php if ($error) : ?>
-                <div class="alert alert-danger" role="alert" style="margin-bottom:0px">
-                    Данный трекер не существует!
-                </div>
-            <?php endif ?>
+<section class="w-100 d-flex p-4 justify-content-center pb-4">
+    <div class="tracker" style="width: 44rem;">
+        <?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($model, 'tracker')->label("Ваш трекер!") ?>
+        <div class="form-group">
+            <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
         </div>
+        <?php ActiveForm::end(); ?>
+        <?php if ($error) : ?>
+            <div class="alert alert-danger" role="alert" style="margin-bottom:0px">
+                Данный трекер не существует!
+            </div>
+        <?php endif ?>
         <?php if ($list) : ?>
             <div class="col-md-12">
                 <h4>Местоположения</h4>
@@ -54,4 +52,4 @@ $this->title = 'Logistics';
             </div>
         <?php endif ?>
     </div>
-</div>
+</section>

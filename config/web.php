@@ -26,7 +26,12 @@ $config = [
                 "import" => "logistics/tracker/import",
                 "add-progress" => "logistics/tracker/add-progress",
                 "signup" => "logistics/user/signup",
-                "signup" => "logistics/user/signin",
+                "signin" => "logistics/user/signin",
+                "add-tracker-client" => "logistics/user/add-tracker-client",
+                "my-tracker" => "logistics/user/my-tracker",
+                "my-address" => "logistics/user/address",
+                "setting-account" => "logistics/user/change-account",
+                "admin-tracker-list" => "logistics/admin/admin-tracker-list",
             ],
         ],
         'request' => [

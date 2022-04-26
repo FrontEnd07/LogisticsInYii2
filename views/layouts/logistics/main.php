@@ -38,17 +38,31 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
             ],
         ]);
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav'],
+            'options' => ['class' => 'navbar-nav ml-auto'],
             'items' => [
-                Yii::$app->user->isGuest ? (['label' => 'Login', 'url' => ['/site/login']]
-                ) : ('<li>'
-                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
+                ['label' => 'Мои посылки', 'url' => ['logistics/user/my-tracker']],
+                ['label' => 'Добавить трек', 'url' => ['logistics/user/add-tracker-client']],
+                Yii::$app->user->getId() == 6 ? ['label' => 'Администратор', 'url' => ['logistics/admin/admin-tracker-list']] : "",
+                Yii::$app->user->isGuest ? (['label' => 'Авторизация', 'url' => ['/logistics/user/signin']]
+                ) : ('<li class="nav-item dropdown">' . Html::tag(
+                    "a",
+                    Yii::$app->user->identity->username,
+                    ['class' => 'dropdown-toggle nav-link active', "data-toggle" => "dropdown", "role" => "button"]
+                ) .
+                    '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/user/change-account']) . '">Настройки</a>
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/user/address']) . '">Адрес доставки</a>    
+                    ' . Html::a(
+                        "Выход (" . Yii::$app->user->identity->username . ")",
+                        ['site/logout'],
+                        [
+                            'class' => 'dropdown-item',
+                            'data-method' => 'POST'
+                        ]
+                    ) . '
+                    
+                    </div>
+                </li>'
                 )
             ],
         ]);
