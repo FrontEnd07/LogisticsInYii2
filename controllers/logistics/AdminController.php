@@ -28,6 +28,7 @@ class AdminController extends Controller
             $q->where($filter);
         }
         if (Yii::$app->request->post("from_date")) {
+            print_r(Yii::$app->request->post("from_date"));
             $from_date = date_create(Yii::$app->request->post("from_date"));
             $to_date = date_create(Yii::$app->request->post("to_date"));
             $q->andHaving(['>=', 'date_time', date_format($from_date, 'U')]);
