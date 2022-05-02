@@ -42,7 +42,16 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
             'items' => [
                 ['label' => 'Мои посылки', 'url' => ['logistics/user/my-tracker']],
                 ['label' => 'Добавить трек', 'url' => ['logistics/user/add-tracker-client']],
-                Yii::$app->user->getId() == 6 ? ['label' => 'Администратор', 'url' => ['logistics/admin/admin-tracker-list']] : "",
+                Yii::$app->user->getId() == 6 ? '<li class="nav-item dropdown">' . Html::tag(
+                    "a",
+                    "Администратор",
+                    ['class' => 'dropdown-toggle nav-link active', "data-toggle" => "dropdown", "role" => "button"]
+                ) .
+                    '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/tracker/tracker']) . '">Добавить трекер</a>
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/admin/admin-tracker-list']) . '">Список трекеров</a>
+                    </div>
+                </li>' : "",
                 Yii::$app->user->isGuest ? (['label' => 'Авторизация', 'url' => ['/logistics/user/signin']]
                 ) : ('<li class="nav-item dropdown">' . Html::tag(
                     "a",

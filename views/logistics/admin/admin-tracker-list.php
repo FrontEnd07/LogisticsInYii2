@@ -2,42 +2,50 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 
 $this->registerCssFile("/web/css/home.css");
 $this->title = 'Все посылки на сайте';
 ?>
+
 <section class="w-100 p-4 justify-content-center pb-4">
     <div class="site-login tracker">
-        <div class="flter__list">
-
-
-            <div style="width: 300px;">
-                <label class="form-label">Сортировка по дате</label>
-                <?= DatePicker::widget([
-                    'name' => 'from_date',
-                    'value' => date("M j, Y", strtotime("-10 day")),
-                    'type' => DatePicker::TYPE_RANGE,
-                    'name2' => 'to_date',
-                    'value2' => date("M j, Y"),
-                    'pluginOptions' => [
-                        'autoclose' => true,
-                        'format' => 'M dd, yyyy'
+        <?php $form = ActiveForm::begin(); ?>
+        <div class="filter__block__admin row">
+            <div class="col-6">
+                <label class="control-label" for="from_date">Фильтр по дате</label>
+                <?= DatePicker::widget(
+                    [
+                        'name' => 'from_date',
+                        'value' => date("M d, Y", strtotime('-10 days')),
+                        'type' => DatePicker::TYPE_RANGE,
+                        'options' => ['style' => 'width:130px', "class" => "", "id" => "from_date"],
+                        'name2' => 'to_date',
+                        'value2' => date("M d, Y"),
+                        'options2' => ['style' => 'width:130px', "class" => ""],
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'format' => 'M dd, yyyy',
+                        ],
                     ]
-                ]); ?>
+                ); ?>
+            </div>
+            <div class="col-6">
+                <label class="control-label" for="user_name">Имя</label>
+                <input type="text" id="user_name" class="form-control" name="user_name">
+            </div>
+            <div class="col-12" style="margin-top: 10px;">
+                <?= Html::submitButton('Фильтр', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
+                ['class' => 'yii\grid\CheckboxColumn'],
                 ['class' => 'yii\grid\SerialColumn'],
                 [
-                    'attribute' => 'id',
-                    'format' => 'text',
-                    'label' => 'ID',
-                ],
-                [
-                    'attribute' => 'asdS',
+                    'attribute' => 'tracker',
                     'format' => 'raw',
                     'value' =>  function ($data) {
                         return  Html::a(
@@ -82,5 +90,7 @@ $this->title = 'Все посылки на сайте';
                 ],
             ],
         ]); ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?php ActiveForm::end(); ?>
     </div>
 </section>
