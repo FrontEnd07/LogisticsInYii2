@@ -2,12 +2,31 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use kartik\date\DatePicker;
 
 $this->registerCssFile("/web/css/home.css");
 $this->title = 'Все посылки на сайте';
 ?>
 <section class="w-100 p-4 justify-content-center pb-4">
     <div class="site-login tracker">
+        <div class="flter__list">
+
+
+            <div style="width: 300px;">
+                <label class="form-label">Сортировка по дате</label>
+                <?= DatePicker::widget([
+                    'name' => 'from_date',
+                    'value' => date("M j, Y", strtotime("-10 day")),
+                    'type' => DatePicker::TYPE_RANGE,
+                    'name2' => 'to_date',
+                    'value2' => date("M j, Y"),
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'M dd, yyyy'
+                    ]
+                ]); ?>
+            </div>
+        </div>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
