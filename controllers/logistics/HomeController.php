@@ -33,12 +33,12 @@ class HomeController extends Controller
 
     public function actionIndexApi()
     {
-        $client = new Client(['baseUrl' => 'http://logistic/api/v1/']);
+        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
         $model = new Home();
         if (Yii::$app->request->post()) {
             $newUserResponse = $client->post('tracker/get-tracker', ['list[]' => trim(Yii::$app->request->post('Home')['tracker'])])->send();
             if ($newUserResponse->data['status']) {
-                return $this->render('index-api', ["model" => $model, "list" => $newUserResponse->data['data'][0]]);
+                return $this->render('index-api', ["model" => $model, "list" => $newUserResponse->data['data'][0], "progress" => $newUserResponse->data['progress']]);
             } else {
                 return $this->render('index-api', ["model" => $model, "error" => 'false']);
             }
