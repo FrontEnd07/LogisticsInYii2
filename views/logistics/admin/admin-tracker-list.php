@@ -39,11 +39,15 @@ $this->title = 'Все посылки на сайте';
                 <?= Html::submitButton('Фильтр', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
+        <?php ActiveForm::end(); ?>
+        <?php $form = ActiveForm::begin(['action' => 'logistics/admin/admin-print']); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
                 ['class' => 'yii\grid\CheckboxColumn'],
-                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'class' => 'yii\grid\SerialColumn',
+                ],
                 [
                     'attribute' => 'tracker',
                     'format' => 'raw',
@@ -90,7 +94,26 @@ $this->title = 'Все посылки на сайте';
                 ],
             ],
         ]); ?>
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <div class="row">
+            <div class="col-4">
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+            </div>
+            <div class="col-4">
+                <label class="form-label">Дата печати</label>
+                <?= DatePicker::widget([
+                    'name' => 'datePrint',
+                    'type' => DatePicker::TYPE_INPUT,
+                    'value' => date("M d, Y"),
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'M dd, yyyy'
+                    ]
+                ]); ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($adminTrackerList, 'username') ?>
+            </div>
+        </div>
         <?php ActiveForm::end(); ?>
     </div>
 </section>
