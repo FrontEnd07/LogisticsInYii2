@@ -2,7 +2,6 @@
 
 namespace app\models\logistics;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 /**

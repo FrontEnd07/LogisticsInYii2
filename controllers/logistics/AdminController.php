@@ -3,10 +3,12 @@
 namespace app\controllers\logistics;
 
 use Yii;
+use app\models\User;
 use yii\web\Controller;
+use app\models\logistics\Address;
 use app\models\logistics\AddTrackerClient;
 use app\models\logistics\AdminTracker;
-use app\models\User;
+
 use yii\data\ActiveDataProvider;
 
 class AdminController extends Controller
@@ -52,14 +54,15 @@ class AdminController extends Controller
     }
     public function actionAdminPrint()
     {
+        $this->layout = false;
         if (empty(Yii::$app->request->post("selection"))) {
             return $this->redirect(['/admin-tracker-list']);
         }
-
+        $user = user::find()->where(['username' => trim(Yii::$app->request->post("AdminTracker")["username"])])->one();
+        $address = Address::find()->where(['client' => $user->id])->one();
         $model = AddTrackerClient::find()->where(['in', 'id', Yii::$app->request->post("selection")])->all();
-        foreach ($model as $key => $value) {
-            echo $value->tracker . "<br />";
-        }
-        die();
+        $datePrint = Yii::$app->request->post("datePrint");
+
+        return $this->render('admin-print', compact("user", "address", 'model', "datePrint"));
     }
 }
