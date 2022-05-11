@@ -18,7 +18,7 @@ class AdminController extends Controller
         if (Yii::$app->user->getId() != 6) {
             return $this->redirect(['/']);
         }
-
+        $filter = [];
         if (Yii::$app->request->post("user_name")) {
             $user = User::find()->where(["username" => trim(Yii::$app->request->post("user_name"))])->one();
             $filter = ["id_client" => $user->id];
@@ -27,7 +27,7 @@ class AdminController extends Controller
 
         $q = AddTrackerClient::find();
 
-        if ($filter) {
+        if (count($filter) > 0) {
             $q->where($filter);
         }
         if (Yii::$app->request->post("from_date")) {

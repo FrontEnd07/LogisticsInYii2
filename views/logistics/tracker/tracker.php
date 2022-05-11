@@ -9,7 +9,7 @@ $this->title = 'Трекеры';
 <div class="site-login">
     <h1>Список посылок</h1>
 
-    <a class="btn btn-success" style="margin-bottom:10px" href=<?= Yii::$app->urlManager->createUrl(['add-tracker']); ?>>Добавить</a>
+    <a class="btn btn-success" style="margin-bottom:10px" href=<?= Yii::$app->urlManager->createUrl(['logistics/tracker/add-tracker-other-site']); ?>>Добавить</a>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +26,7 @@ $this->title = 'Трекеры';
                 'value' =>  function ($data) {
                     return  Html::a(
                         $data->track,
-                        'add-tracker?id=' . $data->id,
+                        'add-tracker-other-site?id=' . $data->id,
                         [
                             'title' => $data->track,
                         ]

@@ -8,20 +8,20 @@ $this->registerCssFile("/web/css/home.css");
 $this->title = 'Logistics';
 ?>
 
-<section class="w-100 d-flex p-4 justify-content-center pb-4">
-    <div class="tracker" style="width: 44rem;">
+<section>
+    <div class="tracker">
         <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($model, 'tracker')->label("Ваш трекер!") ?>
         <div class="form-group">
             <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
         </div>
         <?php ActiveForm::end(); ?>
-        <?php if ($error) : ?>
+        <?php if (isset($error)) : ?>
             <div class="alert alert-danger" role="alert" style="margin-bottom:0px">
                 Данный трекер не существует!
             </div>
         <?php endif ?>
-        <?php if ($list) : ?>
+        <?php if (isset($list)) : ?>
             <div class="col-md-12">
                 <h4>Местоположения</h4>
                 <ul class="timeline">

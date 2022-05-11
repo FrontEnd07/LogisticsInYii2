@@ -9,11 +9,11 @@ $this->registerCssFile("/web/css/home.css");
 $this->title = 'Все посылки на сайте';
 ?>
 
-<section class="w-100 p-4 justify-content-center pb-4">
+<section>
     <div class="site-login tracker">
         <?php $form = ActiveForm::begin(); ?>
         <div class="filter__block__admin row">
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <label class="control-label" for="from_date">Фильтр по дате</label>
                 <?= DatePicker::widget(
                     [
@@ -31,11 +31,11 @@ $this->title = 'Все посылки на сайте';
                     ]
                 ); ?>
             </div>
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <label class="control-label" for="user_name">Имя</label>
                 <input type="text" id="user_name" class="form-control" name="user_name">
             </div>
-            <div class="col-12" style="margin-top: 10px;">
+            <div class="col-sm-12" style="margin-top: 10px;">
                 <?= Html::submitButton('Фильтр', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
@@ -43,6 +43,9 @@ $this->title = 'Все посылки на сайте';
         <?php $form = ActiveForm::begin(['action' => 'logistics/admin/admin-print']); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
+            'options' => [
+                'style' => 'overflow: auto;',
+            ],
             'columns' => [
                 ['class' => 'yii\grid\CheckboxColumn'],
                 [
@@ -66,7 +69,7 @@ $this->title = 'Все посылки на сайте';
                             ]
                         );
                     },
-                    'label' => 'Заголовок',
+                    'label' => 'Трекеры',
                 ],
                 [
                     'attribute' => 'date_time',
@@ -95,10 +98,7 @@ $this->title = 'Все посылки на сайте';
             ],
         ]); ?>
         <div class="row">
-            <div class="col-4">
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-            </div>
-            <div class="col-4">
+            <div class="col-md-6 col-sm-12">
                 <label class="form-label">Дата печати</label>
                 <?= DatePicker::widget([
                     'name' => 'datePrint',
@@ -110,8 +110,11 @@ $this->title = 'Все посылки на сайте';
                     ]
                 ]); ?>
             </div>
-            <div class="col-4">
+            <div class="col-md-6 col-sm-12">
                 <?= $form->field($adminTrackerList, 'username') ?>
+            </div>
+            <div class="col-sm-12">
+                <?= Html::submitButton('Печатать', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
         <?php ActiveForm::end(); ?>

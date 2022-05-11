@@ -80,6 +80,7 @@ class UserController extends Controller
                 $status["save"] = true;
             }
         }
+
         return $this->render('address', ["model" => $model, "status" => $status]);
     }
     public function actionAddTrackerClient()
@@ -110,7 +111,7 @@ class UserController extends Controller
         if (Yii::$app->user->isGuest) {
             Yii::$app->response->redirect('signin');
         }
-        $q = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->orderBy('id DESC');
+        $q = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()]);
         $model = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->all();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
@@ -118,6 +119,9 @@ class UserController extends Controller
                 'pageSize' => 10,
             ],
         ]);
+        
+        $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
+
         return $this->render('my-tracker', [
             'dataProvider' => $dataProvider, 'model' => $model
         ]);

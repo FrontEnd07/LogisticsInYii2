@@ -6,21 +6,21 @@ use yii\widgets\ActiveForm;
 $this->registerCssFile("/web/css/home.css");
 $this->title = 'Добавить трекер!';
 ?>
-<section class="w-100 p-4 d-flex justify-content-center pb-4">
+<section class="">
     <?php $form = ActiveForm::begin([
-        'options' => ['style' => 'width:44rem;', "class" => "formCustom"],
+        'options' => ["class" => "formCustom"],
     ]) ?>
 
-    <? if ($status["update"]) : ?>
+    <?php if (isset($status["update"])) : ?>
         <div class="alert alert-info" role="alert">
             Данные обновлены!
         </div>
-    <? endif ?>
-    <? if ($status["save"]) : ?>
+    <?php endif ?>
+    <?php if (isset($status["save"])) : ?>
         <div class="alert alert-success" role="alert">
             Данные добавленый!
         </div>
-    <? endif ?>
+    <?php endif ?>
 
     <?= $form->field($model, 'tracker', ['options' => [
         'class' => 'mb-4',

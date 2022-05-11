@@ -21,6 +21,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 "add-tracker" => "logistics/tracker/add-tracker",
+                "add-tracker-other-site" => "logistics/tracker/add-tracker-other-site",
                 "tracker" => "logistics/tracker/tracker",
                 "delete" => "logistics/tracker/delete-tracker",
                 "import" => "logistics/tracker/import",

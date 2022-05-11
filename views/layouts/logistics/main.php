@@ -49,7 +49,7 @@ $this->registerCssFile("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.
                 ) .
                     '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/tracker/tracker']) . '">Добавить трекер</a>
-                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/admin/admin-tracker-list']) . '">Список трекеров</a>
+                        <a class="dropdown-item" href="' . Yii::$app->urlManager->createUrl(['logistics/admin/admin-tracker-list']) . '">Трекеры клиентов</a>
                     </div>
                 </li>' : "",
                 Yii::$app->user->isGuest ? (['label' => 'Авторизация', 'url' => ['/logistics/user/signin']]

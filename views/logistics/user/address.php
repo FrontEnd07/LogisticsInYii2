@@ -6,19 +6,19 @@ use yii\widgets\ActiveForm;
 $this->registerCssFile("/web/css/home.css");
 $this->title = 'Ваш адрес';
 ?>
-<section class="w-100 p-4 d-flex justify-content-center pb-4">
-    <?php $form = ActiveForm::begin(['options' => ['style' => 'width:44rem;', "class" => "formCustom"]]) ?>
+<section>
+    <?php $form = ActiveForm::begin(['options' => ["class" => "formCustom"]]) ?>
 
-    <? if ($status["update"]) : ?>
+    <?php if (isset($status["update"])) : ?>
         <div class="alert alert-info" role="alert">
             Данные обновлены!
         </div>
-    <? endif ?>
-    <? if ($status["save"]) : ?>
+    <?php endif ?>
+    <?php if (isset($status["save"])) : ?>
         <div class="alert alert-success" role="alert">
             Данные добавленый!
         </div>
-    <? endif ?>
+    <?php endif ?>
 
     <?= $form->field($model, 'contry', ['options' => ['class' => 'form-outline mb-4']])->dropDownList([
         '0' => 'Россия',

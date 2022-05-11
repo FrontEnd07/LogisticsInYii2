@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\logistics\Tracker;
 use app\models\logistics\OcKuaidi;
 use app\models\logistics\AddProgress;
+use app\models\logistics\TrackerOtherSite;
 use yii\data\ActiveDataProvider;
 
 class TrackerController extends Controller
@@ -38,6 +39,8 @@ class TrackerController extends Controller
                     $id = $model->find()->where(['track' => trim($value)])->select('id')->one()["id"];
                     $arr[] = [$id, "Товар в Алмате", time()];
                 }
+                print_r($arr);
+                die();
                 Yii::$app->db->createCommand()->batchInsert($modelProgress->tableName(), ['id_tracker', 'text', 'date'], $arr)->execute();
             }
             if (!Yii::$app->request->get('id') && $model->position == 3 && $model->validate()) {
@@ -88,19 +91,81 @@ class TrackerController extends Controller
         return $this->render('add-tracker', ['model' => $model]);
     }
 
+    public function actionAddTrackerOtherSite()
+    {
+        if (Yii::$app->user->getId() != 6 and Yii::$app->user->getId() != 10) {
+            return $this->redirect(['/']);
+        }
+        $model = new TrackerOtherSite();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $tracker = explode(PHP_EOL, trim($model->tracker));
+            if (!Yii::$app->request->get('id')) {
+                switch ($model->position) {
+                    case 0:
+                        foreach ($tracker as $value) {
+                            $arr[] = [$model->username, $model->location, time(), trim($value), "Получен на склад"];
+                        }
+                        break;
+                    case 1:
+                        foreach ($tracker as $value) {
+                            $arr[] = [$model->username, $model->location, time(), trim($value), "Товар отгружен"];
+                        }
+                        break;
+                    case 2:
+                        foreach ($tracker as $value) {
+                            $arr[] = [$model->username, $model->location, time(), trim($value), "Товар в Алмате"];
+                        }
+                        break;
+                    case 3:
+                        foreach ($tracker as $value) {
+                            $arr[] = [$model->username, $model->location, time(), trim($value), "Товар в Москве"];
+                        }
+                        break;
+                }
+                Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date_time', 'track', "status"], $arr)->execute();
+            } else {
+                switch ($model->position) {
+                    case 0:
+                        $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker, "status" => "Получен на склад"], ['id' => Yii::$app->request->get('id')]);
+                        break;
+                    case 1:
+                        $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker, "status" => "Товар отгружен"], ['id' => Yii::$app->request->get('id')]);
+                        break;
+                    case 2:
+                        $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker, "status" => "Товар в Алмате"], ['id' => Yii::$app->request->get('id')]);
+                        break;
+                    case 3:
+                        $model::updateAll(["name" => $model->username, "city" => $model->location, "date_time" => time(), "track" => $model->tracker, "status" => "Товар в Москве"], ['id' => Yii::$app->request->get('id')]);
+                        break;
+                }
+            }
+            $this->redirect("logistics/tracker/tracker");
+        }
+        $model->username = "0";
+        $model->location = "China, Guangdong, Guangzhou";
+        if (Yii::$app->request->get('id')) {
+            $model = $model->find()->where(['id' => Yii::$app->request->get('id')])->one();
+            $model->username = $model->name;
+            $model->location = $model->city;
+            $model->tracker = $model->track;
+        }
+        return $this->render('add-tracker-other-site', ['model' => $model]);
+    }
+
     public function actionTracker()
     {
         if (Yii::$app->user->getId() != 6 and Yii::$app->user->getId() != 10) {
             return $this->redirect(['/']);
         }
-        $q = Tracker::find()->orderBy('id DESC');
-        $model = Tracker::find()->orderBy('id DESC')->all();
+        $q = TrackerOtherSite::find();
+        $model = TrackerOtherSite::find()->all();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
+        $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
         return $this->render('tracker', [
             'dataProvider' => $dataProvider, 'model' => $model
         ]);

@@ -6,10 +6,13 @@ use yii\helpers\Html;
 $this->registerCssFile("/web/css/home.css");
 $this->title = 'Мои посылки';
 ?>
-<section class="w-100 p-4 justify-content-center pb-4">
+<section>
     <div class="site-login tracker">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
+            'options' => [
+                'style' => 'overflow: auto;',
+            ],
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 [
@@ -35,7 +38,12 @@ $this->title = 'Мои посылки';
                             ]
                         );
                     },
-                    'label' => 'Заголовок',
+                    'label' => 'Трекеры',
+                ],
+                [
+                    'attribute' => 'nameItem',
+                    'format' => 'raw',
+                    'label' => 'Наименования',
                 ],
                 [
                     'attribute' => 'date_time',

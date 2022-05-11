@@ -7,8 +7,8 @@ $this->registerCssFile("/web/css/home.css");
 $this->title = 'Настройка акаунта';
 ?>
 
-<section class="w-100 p-4 d-flex justify-content-center pb-4">
-    <?php $form = ActiveForm::begin(['options' => ['style' => 'width:22rem;', "class" => "formCustom"]]) ?>
+<section>
+    <?php $form = ActiveForm::begin(['options' => ["class" => "formCustom"]]) ?>
     <?= $form->field($model, 'username', ['options' => ['class' => 'form-outline mb-4']])->textInput() ?>
     <?= $form->field($model, 'email', ['options' => ['class' => 'form-outline mb-4']])->textInput() ?>
     <?= $form->field($model, 'password', ['options' => ['class' => 'form-outline mb-4']])->passwordInput() ?>
