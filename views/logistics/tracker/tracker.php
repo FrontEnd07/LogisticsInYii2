@@ -45,6 +45,13 @@ $this->title = 'Трекеры';
                 'label' => 'Добавил',
             ],
             [
+                'value' => function ($data) {
+                    return  'asd';
+                },
+                'format' => "text",
+                'label' => 'Статус',
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Действия',
                 'headerOptions' => ['width' => '80'],

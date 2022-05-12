@@ -47,6 +47,21 @@ $this->title = 'Logistics';
                             </li>
                         <?php endforeach; ?>
                     <?php endif; ?>
+                    <?php if ($track) : ?>
+                        <li>
+                            <span>
+                                <?php if ($track['status'] == "Товар в Алмате") : ?>
+                                    Kazakhstan
+                                <?php elseif ($track['status'] == "Товар в Москве") : ?>
+                                    Russia
+                                <?php else : ?>
+                                    China
+                                <?php endif; ?>
+                            </span>
+                            <span class="float-right"><?= Yii::$app->formatter->asDate($track['date_time'], 'dd MMMM, yyyy') ?></span>
+                            <p><?= $track['track'] ?>: <?= $track['status'] ?></p>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         <?php endif ?>

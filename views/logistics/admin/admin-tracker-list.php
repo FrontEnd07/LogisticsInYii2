@@ -72,6 +72,11 @@ $this->title = 'Все посылки на сайте';
                     'label' => 'Трекеры',
                 ],
                 [
+                    'attribute' => 'nameItem',
+                    'format' => 'text',
+                    'label' => 'Наименования',
+                ],
+                [
                     'attribute' => 'date_time',
                     'format' => ['date', 'php:d/m/yy H:i'],
                     'label' => 'Время записи',

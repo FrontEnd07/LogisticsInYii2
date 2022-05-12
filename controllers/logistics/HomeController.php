@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\logistics\Home;
 use app\models\logistics\Tracker;
 use app\models\logistics\AddProgress;
+use app\models\logistics\TrackerOtherSite;
 use yii\httpclient\Client;
 
 class HomeController extends Controller
@@ -38,7 +39,8 @@ class HomeController extends Controller
         if (Yii::$app->request->post()) {
             $newUserResponse = $client->post('tracker/get-tracker', ['list[]' => trim(Yii::$app->request->post('Home')['tracker'])])->send();
             if (isset($newUserResponse->data['status'])) {
-                return $this->render('index-api', ["model" => $model, "list" => $newUserResponse->data['data'][0], "progress" => $newUserResponse->data['progress']]);
+                $track = TrackerOtherSite::find()->where(["track" => trim(Yii::$app->request->post('Home')['tracker'])])->one();
+                return $this->render('index-api', ["model" => $model, "track" => $track, "list" => $newUserResponse->data['data'][0], "progress" => $newUserResponse->data['progress']]);
             } else {
                 return $this->render('index-api', ["model" => $model, "error" => 'false']);
             }

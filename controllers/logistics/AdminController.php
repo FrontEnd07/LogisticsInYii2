@@ -30,6 +30,7 @@ class AdminController extends Controller
         if (count($filter) > 0) {
             $q->where($filter);
         }
+        
         if (Yii::$app->request->post("from_date")) {
             $from_date = date_create(Yii::$app->request->post("from_date"));
             $to_date = date_create(Yii::$app->request->post("to_date"));

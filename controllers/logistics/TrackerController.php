@@ -9,6 +9,7 @@ use app\models\logistics\OcKuaidi;
 use app\models\logistics\AddProgress;
 use app\models\logistics\TrackerOtherSite;
 use yii\data\ActiveDataProvider;
+use yii\httpclient\Client;
 
 class TrackerController extends Controller
 {
@@ -159,6 +160,12 @@ class TrackerController extends Controller
         }
         $q = TrackerOtherSite::find();
         $model = TrackerOtherSite::find()->all();
+        $track = [];
+        foreach ($model as $key => $value) {
+            $track['list'][] = trim($value->track);
+        }
+        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
+        $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
             'pagination' => [
@@ -167,7 +174,9 @@ class TrackerController extends Controller
         ]);
         $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
         return $this->render('tracker', [
-            'dataProvider' => $dataProvider, 'model' => $model
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            'resultApi' => $newUserResponse->data
         ]);
     }
 
