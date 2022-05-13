@@ -8,7 +8,7 @@ use yii\web\Controller;
 use app\models\logistics\Address;
 use app\models\logistics\AddTrackerClient;
 use app\models\logistics\AdminTracker;
-
+use yii\httpclient\Client;
 use yii\data\ActiveDataProvider;
 
 class AdminController extends Controller
@@ -30,7 +30,7 @@ class AdminController extends Controller
         if (count($filter) > 0) {
             $q->where($filter);
         }
-        
+
         if (Yii::$app->request->post("from_date")) {
             $from_date = date_create(Yii::$app->request->post("from_date"));
             $to_date = date_create(Yii::$app->request->post("to_date"));
@@ -39,6 +39,15 @@ class AdminController extends Controller
         }
 
         $model = AddTrackerClient::find()->all();
+
+        $track = [];
+        foreach ($model as $key => $value) {
+            $track['list'][] = trim($value->tracker);
+        }
+
+        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
+        $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
+
         $adminTrackerList = new AdminTracker();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
@@ -50,7 +59,10 @@ class AdminController extends Controller
         $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
 
         return $this->render('admin-tracker-list', [
-            'dataProvider' => $dataProvider, 'model' => $model, 'adminTrackerList' => $adminTrackerList
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            'adminTrackerList' => $adminTrackerList,
+            'resultApi' => $newUserResponse->data
         ]);
     }
     public function actionAdminPrint()

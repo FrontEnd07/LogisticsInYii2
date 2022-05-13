@@ -45,8 +45,23 @@ $this->title = 'Трекеры';
                 'label' => 'Добавил',
             ],
             [
-                'value' => function ($data) {
-                    return  'asd';
+                'value' => function ($data) use ($resultApi) {
+                    if ($resultApi['data'] != "tracker empty") {
+                        $boll = false;
+                        foreach ($resultApi['data'] as $k => $value) {
+                            if (array_search($data->track, array_values($resultApi['data'][$k]), true)) {
+                                $boll = true;
+                            }
+                        }
+
+                        if ($boll) {
+                            return "Получен в китае";
+                        } else {
+                            return "Не доставлено";
+                        }
+                    } else {
+                        return "Не доставлено";
+                    }
                 },
                 'format' => "text",
                 'label' => 'Статус',

@@ -140,7 +140,7 @@ class TrackerController extends Controller
                         break;
                 }
             }
-            $this->redirect("logistics/tracker/tracker");
+            $this->redirect("tracker");
         }
         $model->username = "0";
         $model->location = "China, Guangdong, Guangzhou";
@@ -160,12 +160,15 @@ class TrackerController extends Controller
         }
         $q = TrackerOtherSite::find();
         $model = TrackerOtherSite::find()->all();
+
         $track = [];
         foreach ($model as $key => $value) {
             $track['list'][] = trim($value->track);
         }
+
         $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
         $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
             'pagination' => [

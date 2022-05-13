@@ -17,16 +17,16 @@ class TrackerController extends ActiveController
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = Tracker::find()->where(['in', 'track', Yii::$app->request->post("list")])->all();
-        foreach ($model as $key => $value) {
-            $id[] = $value->id;
-        }
-        $progress = AddProgress::find()->where(['in', 'id_tracker', $id])->all();
-        if ($progress) {
-            foreach ($progress as $key => $value) {
-                $progress[$key]['date'] = Yii::$app->formatter->asDate($value->date, 'dd MMMM, yyyy');
-            }
-        }
         if (count($model) > 0) {
+            foreach ($model as $key => $value) {
+                $id[] = $value->id;
+            }
+            $progress = AddProgress::find()->where(['in', 'id_tracker', $id])->all();
+            if ($progress) {
+                foreach ($progress as $key => $value) {
+                    $progress[$key]['date'] = Yii::$app->formatter->asDate($value->date, 'dd MMMM, yyyy');
+                }
+            }
             return array('status' => true, 'data' => $model, "progress" => $progress);
         } else {
             return array('status' => false, 'data' => "tracker empty");

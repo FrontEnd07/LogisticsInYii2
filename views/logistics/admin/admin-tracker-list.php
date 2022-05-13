@@ -87,6 +87,28 @@ $this->title = 'Все посылки на сайте';
                     'label' => 'Клиент',
                 ],
                 [
+                    'value' => function ($data) use ($resultApi) {
+                        if ($resultApi['data'] != "tracker empty") {
+                            $boll = false;
+                            foreach ($resultApi['data'] as $k => $value) {
+                                if (array_search($data->tracker, array_values($resultApi['data'][$k]), true)) {
+                                    $boll = true;
+                                }
+                            }
+
+                            if ($boll) {
+                                return "Получен в китае";
+                            } else {
+                                return "Не доставлено";
+                            }
+                        } else {
+                            return "Не доставлено";
+                        }
+                    },
+                    'format' => "text",
+                    'label' => 'Статус',
+                ],
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'header' => 'Действия',
                     'headerOptions' => ['width' => '80'],

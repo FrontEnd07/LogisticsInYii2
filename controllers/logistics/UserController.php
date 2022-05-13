@@ -12,6 +12,7 @@ use app\models\logistics\ChangeAccount;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
 use yii\data\ActiveDataProvider;
+use yii\httpclient\Client;
 
 class UserController extends Controller
 {
@@ -86,7 +87,7 @@ class UserController extends Controller
     public function actionAddTrackerClient()
     {
         if (Yii::$app->user->isGuest) {
-            Yii::$app->response->redirect('signin');
+            return Yii::$app->response->redirect('signin');
         }
 
         $model = new AddTrackerClient();
@@ -109,21 +110,32 @@ class UserController extends Controller
     public function actionMyTracker()
     {
         if (Yii::$app->user->isGuest) {
-            Yii::$app->response->redirect('signin');
+            return Yii::$app->response->redirect('signin');
         }
+
         $q = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()]);
         $model = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->all();
+
+        $track = [];
+        foreach ($model as $key => $value) {
+            $track['list'][] = trim($value->tracker);
+        }
+
+        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
+        $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
-        
+
         $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
 
         return $this->render('my-tracker', [
-            'dataProvider' => $dataProvider, 'model' => $model
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            "resultApi" => $newUserResponse->data
         ]);
     }
     public function actionChangeAccount()

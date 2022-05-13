@@ -1,5 +1,5 @@
 <head>
-    <link href="http://logistics.loc/assets/31aae90c/css/bootstrap.css" rel="stylesheet">
+    <link href="http://<?= $_SERVER['HTTP_HOST'] ?>/assets/e75ce32f/css/bootstrap.css" rel="stylesheet">
 </head>
 <div class="container">
     <div style="page-break-after: always;">
@@ -39,12 +39,12 @@
                 <tr>
                     <td>
                         <address>
-                            <?= $address->name ?> <?= $address->surname ?><br><?= $address->surname ?><br><?= $address->city ?> <?= $address->postcode ?><br><?= $address->region ?> <br><? if ($address->contry == 0) : ?>
+                            <?= $address->name ?> <?= $address->surname ?><br><?= $address->surname ?><br><?= $address->city ?> <?= $address->postcode ?><br><?= $address->region ?> <br><?php if ($address->contry == 0) : ?>
                                 Россия
-                            <? endif; ?>
-                            <? if ($address->contry == 1) : ?>
+                            <?php endif; ?>
+                            <?php if ($address->contry == 1) : ?>
                                 Казахстан
-                            <? endif; ?>
+                            <?php endif; ?>
                         </address>
                     </td>
                     <td>
@@ -65,8 +65,8 @@
                 </tr>
             </thead>
             <tbody>
-                <? if ($model) : ?>
-                    <? foreach ($model as $value) : ?>
+                <?php if ($model) : ?>
+                    <?php foreach ($model as $value) : ?>
                         <tr>
                             <td></td>
                             <td></td>
@@ -75,10 +75,10 @@
                             <td><?= $value->tracker ?></td>
                             <td class="text-right"><?= $value->quantity ?></td>
                         </tr>
-                    <? endforeach; ?>
-                <? else : ?>
+                    <?php endforeach; ?>
+                <?php else : ?>
                     <td>пусто!</td>
-                <? endif; ?>
+                <?php endif; ?>
 
             </tbody>
         </table>
