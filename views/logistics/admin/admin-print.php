@@ -39,16 +39,37 @@
                 <tr>
                     <td>
                         <address>
-                            <?= $address->name ?> <?= $address->surname ?><br><?= $address->surname ?><br><?= $address->city ?> <?= $address->postcode ?><br><?= $address->region ?> <br><?php if ($address->contry == 0) : ?>
+                            <?php if (isset($address->name)) {
+                                echo $address->name;
+                            } ?>
+                            <?php if (isset($address->surname)) {
+                                echo $address->surname;
+                            } ?><br>
+                            <?php if (isset($address->surname)) {
+                                echo $address->surname;
+                            } ?><br>
+                            <?php if (isset($address->city)) {
+                                echo $address->city;
+                            } ?>
+                            <?php if (isset($address->postcode)) {
+                                echo $address->postcode;
+                            } ?><br>
+                            <?php if (isset($address->region)) {
+                                echo $address->region;
+                            } ?> <br>
+                            <?php if (isset($address->contry) == 0) : ?>
                                 Россия
                             <?php endif; ?>
-                            <?php if ($address->contry == 1) : ?>
+                            <?php if (isset($address->contry) == 1) : ?>
                                 Казахстан
                             <?php endif; ?>
                         </address>
                     </td>
                     <td>
-                        <?= $user->email ?><br><?= $address->phone ?>
+                        <?= $user->email ?><br>
+                        <?php if (isset($address->phone)) {
+                            echo $address->phone;
+                        } ?>
                     </td>
                 </tr>
             </tbody>

@@ -55,19 +55,7 @@ $this->title = 'Все посылки на сайте';
                     'attribute' => 'tracker',
                     'format' => 'raw',
                     'value' =>  function ($data) {
-                        return  Html::a(
-                            $data->tracker,
-                            ['/'],
-                            [
-                                'title' => $data->tracker,
-                                'data' => [
-                                    'method' => 'post',
-                                    'params' => [
-                                        'Home[tracker]' => $data->tracker,
-                                    ],
-                                ],
-                            ]
-                        );
+                        return  $data->tracker;
                     },
                     'label' => 'Трекеры',
                 ],

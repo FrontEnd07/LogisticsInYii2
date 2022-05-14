@@ -38,7 +38,7 @@ class HomeController extends Controller
         $model = new Home();
         if (Yii::$app->request->post()) {
             $newUserResponse = $client->post('tracker/get-tracker', ['list[]' => trim(Yii::$app->request->post('Home')['tracker'])])->send();
-            if (isset($newUserResponse->data['status'])) {
+            if ($newUserResponse->data['status'] == "true") {
                 $track = TrackerOtherSite::find()->where(["track" => trim(Yii::$app->request->post('Home')['tracker'])])->one();
                 return $this->render('index-api', ["model" => $model, "track" => $track, "list" => $newUserResponse->data['data'][0], "progress" => $newUserResponse->data['progress']]);
             } else {
