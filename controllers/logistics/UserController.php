@@ -11,6 +11,7 @@ use app\models\logistics\AddTrackerClient;
 use app\models\logistics\ChangeAccount;
 use app\models\logistics\SignupForm;
 use app\models\logistics\SignIn;
+use app\models\logistics\TrackerOtherSite;
 use yii\data\ActiveDataProvider;
 use yii\httpclient\Client;
 
@@ -114,15 +115,7 @@ class UserController extends Controller
         }
 
         $q = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()]);
-        $model = AddTrackerClient::find()->where(["id_client" => Yii::$app->user->getId()])->all();
 
-        $track = [];
-        foreach ($model as $key => $value) {
-            $track['list'][] = trim($value->tracker);
-        }
-
-        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
-        $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
         $dataProvider = new ActiveDataProvider([
             'query' => $q,
             'pagination' => [
@@ -132,10 +125,16 @@ class UserController extends Controller
 
         $dataProvider->sort->defaultOrder = ['id' => SORT_DESC];
 
+        $track = [];
+        foreach ($q->all() as $key => $value) {
+            $track[] = $value->tracker;
+        }
+
+        $status = TrackerOtherSite::find()->where(['in', 'track', $track])->all();
         return $this->render('my-tracker', [
             'dataProvider' => $dataProvider,
-            'model' => $model,
-            "resultApi" => $newUserResponse->data
+            'model' => $q->all(),
+            'resultApi' => $status
         ]);
     }
     public function actionChangeAccount()

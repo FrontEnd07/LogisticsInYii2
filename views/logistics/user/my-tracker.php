@@ -16,11 +16,6 @@ $this->title = 'Мои посылки';
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 [
-                    'attribute' => 'id',
-                    'format' => 'text',
-                    'label' => 'ID',
-                ],
-                [
                     'attribute' => 'tracker',
                     'format' => 'raw',
                     'value' =>  function ($data) {
@@ -52,19 +47,14 @@ $this->title = 'Мои посылки';
                 ],
                 [
                     'value' => function ($data) use ($resultApi) {
-                        if ($resultApi['data'] != "tracker empty") {
-                            $boll = false;
-                            foreach ($resultApi['data'] as $k => $value) {
-                                if (array_search($data->tracker, array_values($resultApi['data'][$k]), true)) {
-                                    $boll = true;
-                                }
+                        $boll = false;
+                        foreach ($resultApi as $k => $value) {
+                            if ($data->tracker == $value->track) {
+                                $boll = true;
                             }
-
-                            if ($boll) {
-                                return "Получен в китае";
-                            } else {
-                                return "Не доставлено";
-                            }
+                        }
+                        if ($boll) {
+                            return "Получен в Алмате";
                         } else {
                             return "Не доставлено";
                         }

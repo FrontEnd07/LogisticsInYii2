@@ -11,7 +11,7 @@ $this->title = 'Все посылки на сайте';
 
 <section>
     <div class="site-login tracker">
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['method' => 'get']); ?>
         <div class="filter__block__admin row">
             <div class="col-md-6 col-sm-12">
                 <label class="control-label" for="from_date">Фильтр по дате</label>
@@ -33,7 +33,7 @@ $this->title = 'Все посылки на сайте';
             </div>
             <div class="col-md-6 col-sm-12">
                 <label class="control-label" for="user_name">Имя</label>
-                <input type="text" id="user_name" class="form-control" name="user_name">
+                <input type="text" id="user_name" class="form-control" value="<?= Yii::$app->request->get("user_name") ?>" name="user_name">
             </div>
             <div class="col-sm-12" style="margin-top: 10px;">
                 <?= Html::submitButton('Фильтр', ['class' => 'btn btn-success']) ?>

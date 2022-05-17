@@ -19,9 +19,11 @@ class AdminController extends Controller
             return $this->redirect(['/']);
         }
         $filter = [];
-        if (Yii::$app->request->post("user_name")) {
-            $user = User::find()->where(["username" => trim(Yii::$app->request->post("user_name"))])->one();
-            $filter = ["id_client" => $user->id];
+        if (Yii::$app->request->get("user_name")) {
+            $user = AddTrackerClient::find()->where(["name" => trim(Yii::$app->request->get("user_name"))])->one();
+            if ($user) {
+                $filter = ["id_client" => $user->id_client];
+            }
         }
 
 
@@ -31,17 +33,15 @@ class AdminController extends Controller
             $q->where($filter);
         }
 
-        if (Yii::$app->request->post("from_date")) {
-            $from_date = date_create(Yii::$app->request->post("from_date"));
-            $to_date = date_create(Yii::$app->request->post("to_date"));
-            $q->andHaving(['>=', 'date_time', date_format($from_date, 'U')]);
-            $q->andHaving(['<=', 'date_time', date_format($to_date, 'U')]);
+        if (Yii::$app->request->get("from_date")) {
+            $from_date = date_create(Yii::$app->request->get("from_date"));
+            $to_date = date_create(Yii::$app->request->get("to_date"));
+            $q->andHaving(['>=', 'date_time', strtotime('-1 days', date_format($from_date, 'U'))]);
+            $q->andHaving(['<=', 'date_time', strtotime('+1 days', date_format($to_date, 'U'))]);
         }
 
-        $model = AddTrackerClient::find()->all();
-
         $track = [];
-        foreach ($model as $key => $value) {
+        foreach ($q->all() as $key => $value) {
             $track['list'][] = trim($value->tracker);
         }
 
@@ -60,7 +60,7 @@ class AdminController extends Controller
 
         return $this->render('admin-tracker-list', [
             'dataProvider' => $dataProvider,
-            'model' => $model,
+            'model' => $q->all(),
             'adminTrackerList' => $adminTrackerList,
             'resultApi' => $newUserResponse->data
         ]);

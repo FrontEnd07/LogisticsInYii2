@@ -16,11 +16,6 @@ $this->title = 'Трекеры';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute' => 'id',
-                'format' => 'text',
-                'label' => 'ID',
-            ],
-            [
                 'attribute' => 'track',
                 'format' => 'raw',
                 'value' =>  function ($data) {
@@ -42,30 +37,30 @@ $this->title = 'Трекеры';
             [
                 'attribute' => 'name',
                 'format' => "raw",
-                'label' => 'Добавил',
+                'label' => 'Вес посылки',
             ],
-            [
-                'value' => function ($data) use ($resultApi) {
-                    if ($resultApi['data'] != "tracker empty") {
-                        $boll = false;
-                        foreach ($resultApi['data'] as $k => $value) {
-                            if (array_search($data->track, array_values($resultApi['data'][$k]), true)) {
-                                $boll = true;
-                            }
-                        }
+            // [
+            //     'value' => function ($data) use ($resultApi) {
+            //         if ($resultApi['data'] != "tracker empty") {
+            //             $boll = false;
+            //             foreach ($resultApi['data'] as $k => $value) {
+            //                 if (array_search($data->track, array_values($resultApi['data'][$k]), true)) {
+            //                     $boll = true;
+            //                 }
+            //             }
 
-                        if ($boll) {
-                            return "Получен в китае";
-                        } else {
-                            return "Не доставлено";
-                        }
-                    } else {
-                        return "Не доставлено";
-                    }
-                },
-                'format' => "text",
-                'label' => 'Статус',
-            ],
+            //             if ($boll) {
+            //                 return "Получен в китае";
+            //             } else {
+            //                 return "Не доставлено";
+            //             }
+            //         } else {
+            //             return "Не доставлено";
+            //         }
+            //     },
+            //     'format' => "text",
+            //     'label' => 'Статус',
+            // ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Действия',
