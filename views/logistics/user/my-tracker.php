@@ -50,6 +50,23 @@ $this->title = 'Мои посылки';
                         $boll = false;
                         foreach ($resultApi as $k => $value) {
                             if ($data->tracker == $value->track) {
+                                $boll = $value->name;
+                            }
+                        }
+                        if ($boll) {
+                            return $boll;
+                        } else {
+                            return "Нет информации";
+                        }
+                    },
+                    'format' => "text",
+                    'label' => 'Вес посылки',
+                ],
+                [
+                    'value' => function ($data) use ($resultApi) {
+                        $boll = false;
+                        foreach ($resultApi as $k => $value) {
+                            if ($data->tracker == $value->track) {
                                 $boll = true;
                             }
                         }
