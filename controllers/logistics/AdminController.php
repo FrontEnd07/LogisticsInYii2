@@ -44,7 +44,7 @@ class AdminController extends Controller
         foreach ($q->all() as $key => $value) {
             $track['list'][] = trim($value->tracker);
         }
-
+        
         $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
         $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
 

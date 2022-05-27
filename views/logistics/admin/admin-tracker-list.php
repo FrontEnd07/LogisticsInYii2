@@ -83,7 +83,6 @@ $this->title = 'Все посылки на сайте';
                                     $boll = true;
                                 }
                             }
-
                             if ($boll) {
                                 return "Получен в китае";
                             } else {

@@ -63,16 +63,27 @@ $this->title = 'Мои посылки';
                     'label' => 'Вес посылки',
                 ],
                 [
-                    'value' => function ($data) use ($resultApi) {
+                    'value' => function ($data) use ($resultApi, $resultApiMao) {
                         $boll = false;
                         foreach ($resultApi as $k => $value) {
                             if ($data->tracker == $value->track) {
                                 $boll = true;
                             }
                         }
+                        $infoApi = false;
+                        if ($resultApiMao['data'] != "tracker empty") {
+                            foreach ($resultApiMao['data'] as $k => $value) {
+                                if (array_search($data->tracker, array_values($resultApiMao['data'][$k]), true)) {
+                                    $infoApi = true;
+                                }
+                            }
+                        }
                         if ($boll) {
                             return "Получен в Алмате";
                         } else {
+                            if ($infoApi) {
+                                return "Получен в китае";
+                            }
                             return "Не доставлено";
                         }
                     },
@@ -88,7 +99,7 @@ $this->title = 'Мои посылки';
                         'delete' => function ($url, $model) {
                             return Html::a(
                                 '<i class="fa fa-trash" aria-hidden="true"></i>',
-                                'delete?id=' . $model->id
+                                'delete-tracker?id=' . $model->id
                             );
                         },
                     ],

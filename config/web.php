@@ -30,6 +30,7 @@ $config = [
                 "signin" => "logistics/user/signin",
                 "add-tracker-client" => "logistics/user/add-tracker-client",
                 "my-tracker" => "logistics/user/my-tracker",
+                "delete-tracker" => "logistics/user/delete-tracker",
                 "my-address" => "logistics/user/address",
                 "setting-account" => "logistics/user/change-account",
                 "admin-tracker-list" => "logistics/admin/admin-tracker-list",

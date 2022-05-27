@@ -127,16 +127,30 @@ class UserController extends Controller
 
         $track = [];
         foreach ($q->all() as $key => $value) {
-            $track[] = $value->tracker;
+            $track['list'][] = $value->tracker;
         }
 
-        $status = TrackerOtherSite::find()->where(['in', 'track', $track])->all();
+        $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
+        $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
+
+        $status = TrackerOtherSite::find()->where(['in', 'track', $track['list']])->all();
         return $this->render('my-tracker', [
             'dataProvider' => $dataProvider,
             'model' => $q->all(),
-            'resultApi' => $status
+            'resultApi' => $status,
+            'resultApiMao' => $newUserResponse->data
         ]);
     }
+
+    public function actionDeleteTracker()
+    {
+        if (Yii::$app->user->getId() != 6) {
+            return $this->redirect(['/']);
+        }
+        AddTrackerClient::find()->where(['id' => Yii::$app->request->get('id')])->one()->delete();
+        $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionChangeAccount()
     {
         if (Yii::$app->user->isGuest) {
