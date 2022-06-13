@@ -132,8 +132,11 @@ class UserController extends Controller
 
         $client = new Client(['baseUrl' => 'https://351cargo.com/api/v1/']);
         $newUserResponse = $client->post('tracker/get-tracker', $track)->send();
-
-        $status = TrackerOtherSite::find()->where(['in', 'track', $track['list']])->all();
+        if (count($track) > 0) {
+            $status = TrackerOtherSite::find()->where(['in', 'track', $track['list']])->all();
+        } else {
+            $status = [];
+        }
         return $this->render('my-tracker', [
             'dataProvider' => $dataProvider,
             'model' => $q->all(),
@@ -144,10 +147,7 @@ class UserController extends Controller
 
     public function actionDeleteTracker()
     {
-        if (Yii::$app->user->getId() != 6) {
-            return $this->redirect(['/']);
-        }
-        AddTrackerClient::find()->where(['id' => Yii::$app->request->get('id')])->one()->delete();
+        AddTrackerClient::find()->where(['id' => Yii::$app->request->get('id'), "id_client" => Yii::$app->user->getId()])->one()->delete();
         $this->redirect(Yii::$app->request->referrer);
     }
 

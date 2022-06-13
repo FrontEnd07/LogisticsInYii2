@@ -8,6 +8,7 @@ use app\models\logistics\Tracker;
 use app\models\logistics\OcKuaidi;
 use app\models\logistics\AddProgress;
 use app\models\logistics\TrackerOtherSite;
+use app\models\logistics\AddTrackerClient;
 use yii\data\ActiveDataProvider;
 use yii\httpclient\Client;
 
@@ -115,6 +116,7 @@ class TrackerController extends Controller
                     case 2:
                         foreach ($tracker as $value) {
                             $arr[] = [$model->username, $model->location, time(), trim($value), "Товар в Алмате"];
+                            $email[] = trim($value);
                         }
                         break;
                     case 3:
@@ -123,7 +125,17 @@ class TrackerController extends Controller
                         }
                         break;
                 }
-                Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date_time', 'track', "status"], $arr)->execute();
+                $userEmail = AddTrackerClient::find()->where(['in', 'tracker', $email])->all();
+                if (count($userEmail) > 0) {
+                    foreach ($userEmail as $key => $value) {
+                        $clientId[] = array("id_client" => $value->id_client, "tracker" => $value->tracker);
+                    }
+                }
+                if (isset($clientId)) {
+                    print_r($clientId);
+                }
+                die();
+                // Yii::$app->db->createCommand()->batchInsert($model->tableName(), ['name', 'city', 'date_time', 'track', "status"], $arr)->execute();
             } else {
                 switch ($model->position) {
                     case 0:
@@ -143,7 +155,7 @@ class TrackerController extends Controller
             $this->redirect("tracker");
         }
         $model->username = "0";
-        $model->location = "China, Guangdong, Guangzhou";
+        $model->location = "Казахстан, Алматы";
         if (Yii::$app->request->get('id')) {
             $model = $model->find()->where(['id' => Yii::$app->request->get('id')])->one();
             $model->username = $model->name;
